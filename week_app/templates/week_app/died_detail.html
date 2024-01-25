@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Widok szczegółu diety</title>
+</head>
+<body>
+  <h2>Szczegóły diety {{ died.id }}</h2>
+
+  <p>Nazwa: {{ died.name }}</p>
+  <br/>
+  <a href="{% url 'week_app:died_list' %}"><button>Lista</button></a>
+
+  <a href="{% url 'week_app:died_update' died.id %}"><button>Edytuj</button></a>
+  <a href="{% url 'week_app:died_delete' died.id %}"><button>Usuń</button></a>
+  </body>
+</html>
+
