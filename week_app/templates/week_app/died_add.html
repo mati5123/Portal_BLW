@@ -5,17 +5,15 @@
     <title>Title</title>
 </head>
 <body>
-<form method="POST">{% csrf_token %}
-        <label for="subject">Tytuł:</label>
-        <input type="text" name="subject" id="subject">
-        <label for="body">Treść:</label>
-        <textarea name="body" id="body"></textarea>
-        <label for="date">Ulubiona data:</label>
-        <input type="date" name="date" id="date">
-        <label for="time">Ulubiona godzina:</label>
-        <input type="time" name="time" id="time">
 
-        <input type="submit" value="Prześlij">
-</form>
+<h1>Dodawanie treści dla diety: {{ died.name }}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Zapisz opis</button>
+    </form>
+<a href="{% url 'week_app:died_detail' died.id %}"><button>Anuluj</button></a>
+
 </body>
 </html>

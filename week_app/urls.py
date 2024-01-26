@@ -17,6 +17,7 @@ urlpatterns = [
     # D z CRUD
     path('died/<int:died_id>/delete/', views.died_delete_view, name='died_delete'),
     # C z CRUD
-    #path('died/<int:died_id>/died_add/', views.died_add, name='create_died_text'),
+    path('died/<int:died_id>/add-text/', views.died_add_view, name='died_add'),
+
 
 ]

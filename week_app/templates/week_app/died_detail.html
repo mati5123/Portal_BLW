@@ -5,14 +5,21 @@
     <title>Widok szczegółu diety</title>
 </head>
 <body>
-  <h2>Szczegóły diety {{ died.id }}</h2>
+  <h2>Szczegóły diety {{ died.name }}</h2>
 
   <p>Nazwa: {{ died.name }}</p>
+
+  <p>Treść diety: {{ died.text }}</p>
+  <p>Data utworzenia diety: {{ died.create_date }}</p>
+  <p>Data modyfikacji diety: {{ died.modify_date }}</p>
+</form>
   <br/>
   <a href="{% url 'week_app:died_list' %}"><button>Lista</button></a>
-
   <a href="{% url 'week_app:died_update' died.id %}"><button>Edytuj</button></a>
   <a href="{% url 'week_app:died_delete' died.id %}"><button>Usuń</button></a>
+  <a href="{% url 'week_app:died_add' died.id %}"><button>Dodaj</button></a>
+
+
   </body>
 </html>
 
