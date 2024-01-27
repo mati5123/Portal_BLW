@@ -9,7 +9,7 @@
 
   <p>Nazwa: {{ died.name }}</p>
 
-  <p>Treść diety: {{ died.text }}</p>
+  <p>Treść diety: {{ died.text | linebreaksbr }}</p>
   <p>Data utworzenia diety: {{ died.create_date }}</p>
   <p>Data modyfikacji diety: {{ died.modify_date }}</p>
 </form>
