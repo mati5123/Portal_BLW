@@ -1,9 +1,10 @@
 # formularz - metoda POST (redirect)
 from django.shortcuts import render, redirect, Http404, get_object_or_404
-from week_app.models import Died
-from .forms import DiedForm
+from week_app.models import Died , Comment
+from .forms import DiedForm, CommentForm
 from django.utils import timezone
-from django.urls import reverse
+from auth_system_app.models import Week
+
 
 DIEDS = []
 
@@ -44,9 +45,11 @@ def died_list_view(request):
         request,                                            # uzywam funcji render
         'week_app/died_list.html',
         {
-            'died': Died.objects.all()
+            'died': Died.objects.all(),
+
         }
     )
+
 
 # R (szczegół) z CRUD
 def died_detail_view(request, died_id):                      # Widok szczegółów diety
@@ -55,7 +58,8 @@ def died_detail_view(request, died_id):                      # Widok szczegół�
         request,
         'week_app/died_detail.html',
         {
-            'died': died
+            'died': died,
+
         }
     )
 
@@ -69,7 +73,7 @@ def died_update_view(request, died_id):                      # Widok edycji diet
             died.name = new_died
             died.modify_date = timezone.now()               # utwórz date modyfikacji diety
             died.save()                                     # save do database
-        form = DiedForm(request.POST, instance=died)        #Tworzę formularz powiązany z modelem diety
+        form = DiedForm(request.POST, instance=died)        # Tworzę formularz powiązany z modelem diety
         if form.is_valid():
             form.save()
 
@@ -132,6 +136,23 @@ def died_add_view(request, died_id):
                       'form': form
                   }
                   )
+# Comments add view
+def comment_add_view(request, died_id):
+    died = get_object_or_404(Died, id=died_id)
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.died = died
+            comment.save()
+            return redirect('week_app:died_detail', died_id=died_id)
+    else:
+        form = CommentForm()
+
+    return render(request, 'week_app/comment_add.html', {'died': died, 'form': form})
+
+
 
 
 

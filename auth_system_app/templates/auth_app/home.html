@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Portal o rozszerzaniu diety </title>
+</head>
+<body>
+{% extends 'auth_app/base.html' %}
+{% block content %}
+  <div class="container">
+    <h2>Opis portalu</h2>
+    {{ userStatus }}
+
+ <h2>Lista 24 tygodni:</h2>
+    <ul>
+        {% for week in weeks %}
+            <li><a href="{% url 'week_app:died_list'  %}">Tydzień {{ week.week_number }}</a></li>
+        {% endfor %}
+    </ul>
+  </div>
+{% endblock %}
+</body>
+</html>

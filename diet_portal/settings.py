@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'week_app.apps.WeekAppConfig',
+    'auth_system_app.apps.AuthSystemAppConfig',
+
 ]
 
 MIDDLEWARE = [

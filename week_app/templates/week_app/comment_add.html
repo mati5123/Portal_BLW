@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>Dodawanie komenatrza dla diety: {{ died.name }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="died_id" value="{{ died.id }}">
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    <a href="{% url 'week_app:died_detail' died.id %}"><button>Anuluj</button></a>
+
+</body>
+</html>
