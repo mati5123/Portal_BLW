@@ -1,17 +1,14 @@
 # formularz - metoda POST (redirect)
 from django.shortcuts import render, redirect, Http404, get_object_or_404
-from week_app.models import Died , Comment
+from week_app.models import Died, Comment
 from .forms import DiedForm, CommentForm
 from django.utils import timezone
 from auth_system_app.models import Week
 
-
 DIEDS = []
 
-
 # Create a diet
-
-def diet_create_view(request):
+def died_create_view(request):
     if request.method == "GET":
         form = DiedForm()                                   # Tworzymy formularz dla metoda GET request
         return render(request,
@@ -32,17 +29,17 @@ def diet_create_view(request):
             died = get_object_or_404(Died, id=died_id)      # Otrzymaj diete z id(baza danych) albo 404
             form = DiedForm(request.POST, instance=died)
             if form.is_valid():
-                died.create_date = timezone.now()           # Tworzenie daaty utworzenia diety
+                died.create_date = timezone.now()           # Tworzenie daty utworzenia diety
                 form.save()                                 # Zapis fomularza django do bazy danych
                 return redirect(
                     'week_app:died_detail',
                     died_id=died_id
                 )                                           # Widok szczegółów diety
 
-# Read created diet list
+
 def died_list_view(request):
-    return render(                                          # Widok listy diet
-        request,                                            # uzywam funcji render
+    return render(                                                  # Widok listy diet
+        request,                                                    # uzywam funcji render
         'week_app/died_list.html',
         {
             'died': Died.objects.all(),
@@ -52,28 +49,31 @@ def died_list_view(request):
 
 
 # R (szczegół) z CRUD
-def died_detail_view(request, died_id):                      # Widok szczegółów diety
-    died = get_object_or_404(Died, id=died_id)               # Otrzymaj diete z id(baza danych) albo 404
+def died_detail_view(request, died_id):                          # Widok szczegółów diety
+    died = get_object_or_404(Died, id=died_id)                   # Otrzymaj diete z id(baza danych) albo 404
+    comments = Comment.objects.filter(died=died)
     return render(
         request,
         'week_app/died_detail.html',
         {
             'died': died,
+            'comments': comments,
+
 
         }
     )
 
 
 # U z CRUD
-def died_update_view(request, died_id):                      # Widok edycji diety
-    died = get_object_or_404(Died, id=died_id)               # Otrzymaj diete z id(baza danych) albo 404
+def died_update_view(request, died_id):                         # Widok edycji diety
+    died = get_object_or_404(Died, id=died_id)                  # Otrzymaj diete z id(baza danych) albo 404
     if request.method == 'POST':
-        new_died = request.POST.get('died')                 # Jeżeli Post to nowa dieta
-        if new_died is not None:                            # dodaj nową id i nazwe diety
+        new_died = request.POST.get('died')                     # Jeżeli Post to nowa dieta
+        if new_died is not None:                                # dodaj nową id i nazwe diety
             died.name = new_died
-            died.modify_date = timezone.now()               # utwórz date modyfikacji diety
-            died.save()                                     # save do database
-        form = DiedForm(request.POST, instance=died)        # Tworzę formularz powiązany z modelem diety
+            died.modify_date = timezone.now()                   # utwórz date modyfikacji diety
+            died.save()  # save do database
+        form = DiedForm(request.POST, instance=died)            # Tworzę formularz powiązany z modelem diety
         if form.is_valid():
             form.save()
 
@@ -93,6 +93,8 @@ def died_update_view(request, died_id):                      # Widok edycji diet
                       'form': form
                   }
                   )
+
+
 # D z CRUD
 def died_delete_view(request, died_id):
     died = get_object_or_404(Died, id=died_id)
@@ -114,7 +116,8 @@ def died_delete_view(request, died_id):
 
         return redirect('week_app:died_list')
 
-    #Dodawanie dity na widoku szczegołów diety za pomocą przycisku dodaj w html
+
+# Dodawanie diety na widoku szczegołów diety za pomocą przycisku dodaj w html
 
 def died_add_view(request, died_id):
     died = get_object_or_404(Died, id=died_id)
@@ -128,15 +131,18 @@ def died_add_view(request, died_id):
 
     else:
         form = DiedForm(instance=died)
+        return render(request,
+                      'week_app/died_add.html',
+                      {
+                          'died': died,
+                          'form': form
+                      }
+                      )
 
-    return render(request,
-                  'week_app/died_add.html',
-                  {
-                      'died': died,
-                      'form': form
-                  }
-                  )
-# Comments add view
+
+""""------------------------------------- Comments----------------------------"""
+
+
 def comment_add_view(request, died_id):
     died = get_object_or_404(Died, id=died_id)
 
@@ -145,14 +151,16 @@ def comment_add_view(request, died_id):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.died = died
+            comment.created_date = timezone.now()
             comment.save()
             return redirect('week_app:died_detail', died_id=died_id)
+
     else:
         form = CommentForm()
 
-    return render(request, 'week_app/comment_add.html', {'died': died, 'form': form})
-
-
-
-
+    return render(request,
+                  'week_app/comment_add.html',
+                  {'died': died,
+                   'form': form}
+                  )
 

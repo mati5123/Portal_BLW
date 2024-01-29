@@ -11,7 +11,8 @@
         {% csrf_token %}
         <input type="hidden" name="died_id" value="{{ died.id }}">
         {{ form.as_p }}
-        <button type="submit">Submit</button>
+        <input type="submit" value="Zapisz">
+    </form>
     <a href="{% url 'week_app:died_detail' died.id %}"><button>Anuluj</button></a>
 
 </body>

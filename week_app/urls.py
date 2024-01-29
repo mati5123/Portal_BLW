@@ -6,7 +6,7 @@ app_name = 'week_app'
 
 urlpatterns = [
     # C z CRUD
-    path('died/create/', views.diet_create_view, name='create_died'),
+    path('died/create/', views.died_create_view, name='create_died'),
     # R z CRUD (lista)
     path('died/', views.died_list_view, name='died_list'),
 
