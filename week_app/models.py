@@ -9,9 +9,10 @@ class Died(models.Model):
     text = models.TextField()
     create_date = models.DateTimeField(default=timezone.now)
     modify_date = models.DateTimeField(default=timezone.now)
+    week_number = models.PositiveSmallIntegerField(default=1)
 
     def __str__(self):
-        return f"Died: [{self.id}] {self.name}"
+        return f"Died: [{self.id} {self.name} "
 
 class Comment(models.Model):
     died = models.ForeignKey(Died, on_delete=models.CASCADE, related_name='comments')

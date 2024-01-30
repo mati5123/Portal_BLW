@@ -15,7 +15,6 @@
   <a href="{% url 'week_app:died_list' %}"><button>Lista</button></a>
   <a href="{% url 'week_app:died_update' died.id %}"><button>Edytuj</button></a>
   <a href="{% url 'week_app:died_delete' died.id %}"><button>Usuń</button></a>
-  <a href="{% url 'week_app:died_add' died.id %}"><button>Dodaj</button></a>
 
   <h2>Komentarze:</h2>
   {% for comment in died.comments.all %}

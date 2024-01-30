@@ -5,6 +5,7 @@ from .forms import DiedForm, CommentForm
 from django.utils import timezone
 from auth_system_app.models import Week
 
+
 DIEDS = []
 
 # Create a diet
@@ -18,8 +19,14 @@ def died_create_view(request):
 
     if request.method == "POST":
         died = request.POST.get('died')
+        text = request.POST.get('text')
         if died is not None:
-            Died.objects.create(name=died)                  # Tworzenie diety z numerem id
+            Died.objects.create(
+                name=died,
+                text=text,
+                week_number=week_nr
+            )         # Tworzenie diety z nazwa inumerem id
+
             return redirect(
                 'week_app:died_list'
             )                                               # przekierowanie do listy diet
@@ -46,7 +53,6 @@ def died_list_view(request):
 
         }
     )
-
 
 # R (szczegół) z CRUD
 def died_detail_view(request, died_id):                          # Widok szczegółów diety
@@ -117,31 +123,7 @@ def died_delete_view(request, died_id):
         return redirect('week_app:died_list')
 
 
-# Dodawanie diety na widoku szczegołów diety za pomocą przycisku dodaj w html
-
-def died_add_view(request, died_id):
-    died = get_object_or_404(Died, id=died_id)
-
-    if request.method == 'POST':
-        form = DiedForm(request.POST, instance=died)
-        if form.is_valid():
-            died.create_date = timezone.now()
-            form.save()
-            return redirect('week_app:died_detail', died_id=died_id)
-
-    else:
-        form = DiedForm(instance=died)
-        return render(request,
-                      'week_app/died_add.html',
-                      {
-                          'died': died,
-                          'form': form
-                      }
-                      )
-
-
 """"------------------------------------- Comments----------------------------"""
-
 
 def comment_add_view(request, died_id):
     died = get_object_or_404(Died, id=died_id)

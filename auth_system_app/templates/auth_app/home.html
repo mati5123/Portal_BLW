@@ -7,7 +7,7 @@
 <body>
 {% extends 'auth_app/base.html' %}
 {% block content %}
-  <div class="container">
+
     <h2>Opis portalu</h2>
     {{ userStatus }}
 
@@ -17,7 +17,7 @@
             <li><a href="{% url 'week_app:died_list'  %}">Tydzień {{ week.week_number }}</a></li>
         {% endfor %}
     </ul>
-  </div>
+
 {% endblock %}
 </body>
 </html>

@@ -7,12 +7,12 @@
 <body>
 {% extends 'auth_app/base.html' %}
 {% block content %}
-  <div class="container">
+
     <h2>SIGNUP</h2><br>
     {% if error %}
-      <div class="alert alert-danger">
+
         {{ error }}<br>
-      </div>
+
     {% endif %}
     <form method="POST">
       {% csrf_token %}
@@ -20,9 +20,9 @@
       <input type="text" name="username"><br><br>
       Hasło:<br>
       <input type="password" name="password1"><br><br>
-      <input class="btn btn-primary" type="submit" value="Zarejestruj">
+      <input type="submit" value="Zarejestruj">
     </form>
-  </div>
+
 {% endblock %}
 </body>
 </html>

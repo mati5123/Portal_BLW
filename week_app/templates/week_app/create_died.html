@@ -7,10 +7,8 @@
 <body>
   <form method="POST">
       {% csrf_token %}
-      <input type="text" placeholder="stwórz" name="died">
-      <input type="submit" value="Zapisz">
-
-        {{ form.as_p }}
+      <input type="text" placeholder="Podaj nazwę diety" name="died" required>
+      {{ form.as_p }}
       <input type="submit" value="Zapisz">
   </form>
 
