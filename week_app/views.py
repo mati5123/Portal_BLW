@@ -1,5 +1,5 @@
 # formularz - metoda POST (redirect)
-from django.shortcuts import render, redirect, Http404, get_object_or_404
+from django.shortcuts import render, redirect, Http404, get_object_or_404, HttpResponse
 from week_app.models import Died, Comment
 from .forms import DiedForm, CommentForm
 from django.utils import timezone
@@ -9,13 +9,17 @@ from auth_system_app.models import Week
 DIEDS = []
 
 # Create a diet
-def died_create_view(request):
+def died_create_view(request, week_nr):
     if request.method == "GET":
         form = DiedForm()                                   # Tworzymy formularz dla metoda GET request
-        return render(request,
-                      'week_app/create_died.html',
-                      {'form': form}
-                      )
+        return render(
+            request,
+            'week_app/create_died.html',
+            context = {
+                'form': form,
+                'week_nr': week_nr
+            }
+        )
 
     if request.method == "POST":
         died = request.POST.get('died')
@@ -28,28 +32,31 @@ def died_create_view(request):
             )         # Tworzenie diety z nazwa inumerem id
 
             return redirect(
-                'week_app:died_list'
+                'week_app:died_list', week_nr=week_nr
             )                                               # przekierowanie do listy diet
+        else:
+            return HttpResponse("Niepoprawne dane")
 
-        died_id = request.POST.get('died_id')               # Za pomocą POST pobieramy numer id
-        if died_id:
-            died = get_object_or_404(Died, id=died_id)      # Otrzymaj diete z id(baza danych) albo 404
-            form = DiedForm(request.POST, instance=died)
-            if form.is_valid():
-                died.create_date = timezone.now()           # Tworzenie daty utworzenia diety
-                form.save()                                 # Zapis fomularza django do bazy danych
-                return redirect(
-                    'week_app:died_detail',
-                    died_id=died_id
-                )                                           # Widok szczegółów diety
+        # died_id = request.POST.get('died_id')               # Za pomocą POST pobieramy numer id
+        # if died_id:
+        #     died = get_object_or_404(Died, id=died_id)      # Otrzymaj diete z id(baza danych) albo 404
+        #     form = DiedForm(request.POST, instance=died)
+        #     if form.is_valid():
+        #         died.create_date = timezone.now()           # Tworzenie daty utworzenia diety
+        #         form.save()                                 # Zapis fomularza django do bazy danych
+        #         return redirect(
+        #             'week_app:died_detail',
+        #             died_id=died_id
+        #         )                                           # Widok szczegółów diety
 
 
-def died_list_view(request):
+def died_list_view(request, week_nr):
     return render(                                                  # Widok listy diet
         request,                                                    # uzywam funcji render
         'week_app/died_list.html',
         {
-            'died': Died.objects.all(),
+            'died': Died.objects.filter(week_number=week_nr),
+            'week_nr': week_nr,
 
         }
     )

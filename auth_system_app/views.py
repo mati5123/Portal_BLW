@@ -13,9 +13,9 @@ def home(request):
     else:
         context['userStatus'] = 'niezalogowany'
 
-    if not Week.objects.exists():                           #Sprawdzam istnienie 24 tygodni w bazie
-        for week_number in range(1, 25):                    #używam metody creat do ich stworzenia
-            Week.objects.create(week_number=week_number)
+    # if not Week.objects.exists():                           #Sprawdzam istnienie 24 tygodni w bazie
+    #     for week_number in range(1, 25):                    #używam metody creat do ich stworzenia
+    #         Week.objects.create(week_number=week_number)
 
     # weeks = Week.objects.order_by('week_number')[:24]       #dodaje im liczy 24
     # weeks_list = [{'id': week.id, 'week_number': week.week_number} for week in weeks] #litruje aby uzyska id tygodnia

@@ -12,7 +12,7 @@
   <p>Data utworzenia diety: {{ died.create_date }}</p>
   <p>Data modyfikacji diety: {{ died.modify_date }}</p>
 
-  <a href="{% url 'week_app:died_list' %}"><button>Lista</button></a>
+  <a href="{% url 'week_app:died_list' died.week_number %}"><button>Lista</button></a>
   <a href="{% url 'week_app:died_update' died.id %}"><button>Edytuj</button></a>
   <a href="{% url 'week_app:died_delete' died.id %}"><button>Usuń</button></a>
 

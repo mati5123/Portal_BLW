@@ -13,8 +13,8 @@
 
  <h2>Lista 24 tygodni:</h2>
     <ul>
-        {% for week in weeks %}
-            <li><a href="{% url 'week_app:died_list'  %}">Tydzień {{ week.week_number }}</a></li>
+        {% for week_nr in weeks %}
+            <li><a href="{% url 'week_app:died_list' week_nr %}">Tydzień {{ week_nr }}</a></li>
         {% endfor %}
     </ul>
 
