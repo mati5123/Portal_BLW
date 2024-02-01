@@ -1,20 +1,41 @@
+<!---
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Widok szczegółu diety</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
 </head>
-<body>
-  <h2>Szczegóły diety {{ died.name }}</h2>
+
+<body style="margin: 1%;">
+    <div class="container"></div>
+
+     <div class="row">
+        <div class="col-12">
+
+             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                  <div class="container-fluid"> <! płynna zmian szerkości 100%>
+
+                      <a class="navbar-brand">Szczegóły diety </a>
+                      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="btn btn-secondary" href="{% url 'auth_app:home' %}">Strona Główna</a>
+                            </li>
+                        </ul>
+                      </div>
+                  </div>
+                </nav>
 
   <p>Nazwa: {{ died.name }}</p>
   <p>Treść diety: {{ died.text | linebreaksbr }}</p>
   <p>Data utworzenia diety: {{ died.create_date }}</p>
   <p>Data modyfikacji diety: {{ died.modify_date }}</p>
 
-  <a href="{% url 'week_app:died_list' died.week_number %}"><button>Lista</button></a>
+
   <a href="{% url 'week_app:died_update' died.id %}"><button>Edytuj</button></a>
-  <a href="{% url 'week_app:died_delete' died.id %}"><button>Usuń</button></a>
+  <a href="{% url 'week_app:died_delete' died.week_number died.id %}"><button>Usuń</button></a>
 
   <h2>Komentarze:</h2>
   {% for comment in died.comments.all %}
@@ -26,7 +47,114 @@
 
   <a href="{% url 'week_app:died_comment_add' died.id %}"><button>Dodaj Komentarz</button></a>
 
+ <h3>Zdjęcie diety:</h3>
 
+  <a href="{% url 'week_app:create_image' died.id %}"><button>Dodaj Zdjęcie</button></a>
+
+<h1>Obrazek dla diety: {{ died.name }}</h1>
+    {% if died.image %}
+        <img src="{{ died.image.url  }}" alt="Obrazek dla diety: {{ died.name }}">
+    {% endif %}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        </div>
+     </div>
 </body>
+</html>
+
+--->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <title>Bootstrap Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <body class="p-3 m-0 border-0 bd-example m-0 border-0">
+    <div class="container"></div>
+
+     <div class="row">
+        <div class="col-12">
+
+             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                  <div class="container-fluid"> <! płynna zmian szerkości 100%>
+
+                      <a class="navbar-brand">Szczegóły diety </a>
+                      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="btn btn-secondary" href="{% url 'auth_app:home' %}">Strona Główna</a>
+                            </li>
+                        </ul>
+                      </div>
+                  </div>
+                </nav>
+
+
+
+    <div class="card text-center">
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="true" href="#">Nazwa: {{ died.name }}</a>
+
+          </li>
+          <li class="nav-item">
+                    <a class="nav-link" href="{% url 'week_app:died_update' died.id %}">Edytuj</a>
+          </li>
+
+            <li class="nav-item">
+                    <a class="nav-link" href="{% url 'week_app:died_comment_add' died.id %}">Dodaj Komentarz</a>
+          </li>
+
+        </ul>
+
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Nazwa: {{ died.name }}</h5>
+        <p class="card-text">Treść diety: {{ died.text | linebreaksbr }}.</p>
+
+<!--------------zdjęcie-------------------------->
+          {% if died.image %}
+            <img src="{{ died.image.url  }}" class="img-thumbnail" alt="Obrazek dla diety: {{ died.name }}" style="width: 400px; height: 400px;">
+            {% endif %}
+
+            <p><a href="{% url 'week_app:died_delete' died.week_number died.id %}" class="btn btn-danger">Usuń dietę</a></p>
+
+      </div>
+    <br>
+   <!------------------------------------Sekcja komentowania----------------->
+    <div class="card text-center">
+  <div class="card-header">
+    Zostaw swój komentarz !
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Sekcja komentowania</h5>
+    {% for comment in died.comments.all %}
+    <p class="card-text">Treść komentarza: {{ comment.text | linebreaksbr}}</p>
+  {% empty %}
+    <p class="card-text">Brak komentarzy.</p>
+  {% endfor %}
+
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+  <div class="card-footer text-body-secondary">
+    Dodano dnia : {{ comment.create_date }}
+  </div>
+</div>
+
+             <p>Data utworzenia diety: {{ died.create_date }}</p>
+             <p>Data modyfikacji diety: {{ died.modify_date }}</p>
+        </div>
+        </div>
+
+     </div>
+  </body>
 </html>
 

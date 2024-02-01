@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib import auth
-from auth_system_app.models import Week
+
 
 
 def home(request):
@@ -11,7 +11,7 @@ def home(request):
     if request.user.is_authenticated:
         context['userStatus'] = 'zalogowany'
     else:
-        context['userStatus'] = 'niezalogowany'
+        context['userStatus'] = 'Zaloguj się aby zobaczyć więcej!'
 
     # if not Week.objects.exists():                           #Sprawdzam istnienie 24 tygodni w bazie
     #     for week_number in range(1, 25):                    #używam metody creat do ich stworzenia
@@ -29,12 +29,19 @@ def signup_views(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password1 = request.POST.get('password1')
+        email = request.POST.get('email')
+        firstname = request.POST.get("firstname")
+        lastname = request.POST.get("lastname")
 
         if User.objects.filter(username=username).exists():
-            context = {'error': 'Podana nazwa użytkownika już istnieje! Proszę podać inną nazwę użytkownika.'}
+            context = {'error': 'Taki użytkownik już istnieje! Proszę podać inną nazwę użytkownika.'}
             return render(request, 'auth_app/signup.html', context)
 
-        user = User.objects.create_user(username=username, password=password1)
+        user = User.objects.create_user(username=username,
+                                        password=password1,
+                                        email=email,
+                                        first_name=firstname,
+                                        last_name=lastname)
         login(request, user)
         return redirect('auth_app:home')
 
