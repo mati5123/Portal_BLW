@@ -1,47 +1,50 @@
-<!--DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <title>Edycja Diety</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <body class="p-3 m-0 border-0 bd-example m-0 border-0">
+    <div class="container"></div>
 
-</head>
-<body>
-  <h2>Modyfikacja diety numer {{ died.name }}</h2>
-  <form method="POST">
-      {% csrf_token %}
-      <input type="text" placeholder="podaj diete" name="died" value="{{ died.name }}">
-      <input type="submit" value="Zmodyfikuj">
-  </form>
-  <h1>Szczegóły diety: {{ died.name }}</h1>
+    <div class="card text-center">
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link " aria-current="true" href="{% url 'week_app:died_detail' died.id %}">Nazwa: {{ died.name }}</a>
+          </li>
+          <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'week_app:died_update' died.id %}">Edytuj</a>
+          </li>
 
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Zapisz opis</button>
-    </form>
-<a href="{% url 'week_app:died_detail' died.id %}"><button>Anuluj</button></a>
-  <br/>
-</body>
-</html-->
+            <li class="nav-item">
+                    <a class="nav-link disabled" href="{% url 'week_app:died_comment_add' died.id %}">Dodaj Komentarz</a>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Modyfikacja diety: {{ died.name }}</h5>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-
-</head>
-<body>
-  <h2>Modyfikacja diety numer {{ died.name }}</h2>
-  <form method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
+            <p>Podaj nową nazwę diety : <input type="text" placeholder="podaj diete" name="died" value="{{ died.name }}"></p>
 
       {% csrf_token %}
-      {{ form.as_p }}
-      <input type="text" placeholder="podaj diete" name="died" value="{{ died.name }}">
-      <input type="submit" value="Zmodyfikuj">
-      <button type="submit">Zapisz opis</button>
-    </form>
-<a href="{% url 'week_app:died_detail' died.id %}"><button>Anuluj</button></a>
-  <br/>
-</body>
+
+          <!--label for="{{ form.image.id_for_label }}">{{ form.image}}</label-->
+          <p><input type="file"  name="{{ form.image.html_name }}" id="{{ form.image.id_for_label }}"></p>
+
+        <p><button type="submit" class="btn btn-outline-secondary" >Zmodyfikuj</button></p>
+        </form>
+          <a href="{% url 'week_app:died_detail' died.id %}"><button type="button" class="btn btn-outline-danger">Anuluj</button></a>
+        </div>
+     </div>
+  <p class="placeholder-glow">
+  <span class="placeholder col-12"></span>
+</p>
+  </body>
 </html>

@@ -18,6 +18,10 @@ urlpatterns = [
     # C z CRUD
     path('died/<int:died_id>/add-comment/', views.comment_add_view, name='died_comment_add'),
 
+    path('died/<int:died_id>/comment/<int:comment_id>/delete/', views.comment_delete_view, name='died_comment_delete'),
+
     path('died/<int:died_id>/image/', views.create_image_view, name='create_image'),
+
+
 
 ]

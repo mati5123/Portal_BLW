@@ -13,7 +13,10 @@
 {% extends 'auth_app/base.html' %}
 {% block content %}
     <div class="d-flex justify-content-end">
+        <div class="alert alert-info" role="alert">
                 {{ userStatus }}
+        </div>
+
      </div>
 
 
@@ -30,9 +33,12 @@
             </ul>
         </div>
 
-        <div class="col-9 text-center">  <h2>Treść Poratlu</h2>
-            gfdg<br>
-            gfd<br>
+        <div class="col-9 text-center">
+             <div class="shadow-lg p-3 mb-5 bg-body-tertiary rounded">Larger shadow
+                <h2>Treść Poratlu</h2>
+
+                <p class="lh-1">This is a long paragraph written to show how the line-height of an element is affected by our utilities. Classes are applied to the element itself or sometimes the parent element. These classes can be customized as needed with our utility API.</p>
+            </div>
 
         </div>
     </div>

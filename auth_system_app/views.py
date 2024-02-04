@@ -13,12 +13,6 @@ def home(request):
     else:
         context['userStatus'] = 'Zaloguj się aby zobaczyć więcej!'
 
-    # if not Week.objects.exists():                           #Sprawdzam istnienie 24 tygodni w bazie
-    #     for week_number in range(1, 25):                    #używam metody creat do ich stworzenia
-    #         Week.objects.create(week_number=week_number)
-
-    # weeks = Week.objects.order_by('week_number')[:24]       #dodaje im liczy 24
-    # weeks_list = [{'id': week.id, 'week_number': week.week_number} for week in weeks] #litruje aby uzyska id tygodnia
     context['weeks'] = list(range(1, 25))                            # Dodanie listy tygodni do kontekstu
 
     return render(request,
@@ -35,7 +29,9 @@ def signup_views(request):
 
         if User.objects.filter(username=username).exists():
             context = {'error': 'Taki użytkownik już istnieje! Proszę podać inną nazwę użytkownika.'}
-            return render(request, 'auth_app/signup.html', context)
+            return render(request,
+                          'auth_app/signup.html',
+                          context)
 
         user = User.objects.create_user(username=username,
                                         password=password1,

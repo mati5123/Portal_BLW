@@ -21,9 +21,13 @@ class Comment(models.Model):
     text = models.TextField()
     create_date = models.DateTimeField(default=timezone.now)
 
+
+
 class Image(models.Model):
     died = models.ForeignKey(Died, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to='week_app/static/died_images/', blank=True, null=True)
+    image = models.ImageField(upload_to='week_app/static/died_images/', blank=True, null=True,)
+
+
 
     def __str__(self):
         return f"Image for Died: {self.died.name}"
