@@ -34,9 +34,9 @@
             <p>Podaj nową nazwę diety : <input type="text" placeholder="podaj diete" name="died" value="{{ died.name }}"></p>
 
       {% csrf_token %}
-
+      {{ form.as_p }}
           <!--label for="{{ form.image.id_for_label }}">{{ form.image}}</label-->
-          <p><input type="file"  name="{{ form.image.html_name }}" id="{{ form.image.id_for_label }}"></p>
+          <!--<p><input type="file"  name="{{ form.image.html_name }}" id="{{ form.image.id_for_label }}"></p>-->
 
         <p><button type="submit" class="btn btn-outline-secondary" >Zmodyfikuj</button></p>
         </form>

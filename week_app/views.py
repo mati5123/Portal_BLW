@@ -1,10 +1,10 @@
 # formularz - metoda POST (redirect)
-from django.shortcuts import render, redirect, Http404, get_object_or_404, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from week_app.models import Died, Comment
 from .forms import DiedForm, CommentForm, ImageForm
 from django.utils import timezone
-
 from django.contrib.auth.decorators import login_required
+
 
 DIEDS = []
 
@@ -74,6 +74,7 @@ def died_detail_view(request, died_id):  # Widok szczegółów diety
 
 
 # U z CRUD
+
 @login_required
 def died_update_view(request, died_id):  # Widok edycji diety
     died = get_object_or_404(Died, id=died_id)  # Otrzymaj diete z id(baza danych) albo 404
@@ -141,8 +142,6 @@ def died_delete_view(request, died_id, week_nr):
 
 
 """"------------------------------------- Comments----------------------------"""
-
-
 @login_required
 def comment_add_view(request, died_id):
     died = get_object_or_404(Died, id=died_id)
@@ -153,8 +152,10 @@ def comment_add_view(request, died_id):
             comment = form.save(commit=False)
             comment.died = died
             comment.created_date = timezone.now()
+            comment.user = request.user  # Zapisz do bazy kto jest autorem komentarza
             comment.save()
-            return redirect('week_app:died_detail', died_id=died_id)
+            return redirect('week_app:died_detail',
+                            died_id=died_id)
 
     else:
         form = CommentForm()
@@ -164,12 +165,21 @@ def comment_add_view(request, died_id):
                   {
                       'died': died,
                       'form': form}
-
                   )
 
 @login_required
 def comment_delete_view(request, died_id, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
+
+    # Sprawdz czy autor komentarza jest zalogowany.
+    if request.user != comment.user:
+        return render(request, 'week_app/not_author.html',
+                      {
+                          'comment': comment,
+                          'died_id': died_id
+                      }
+                      )
+
     if request.method == 'POST':
         comment.delete()
         return redirect(
@@ -181,9 +191,9 @@ def comment_delete_view(request, died_id, comment_id):
             'week_app/comment_confirm_delete.html',
             {
                 'comment': comment,
-                'died_id': died_id}
+                'died_id': died_id
+            }
         )
-
 
 """---------------------------------Image------------------------------"""
 

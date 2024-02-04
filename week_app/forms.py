@@ -4,11 +4,16 @@ from django.forms.widgets import ClearableFileInput
 
 class DiedForm(forms.ModelForm):
     class Meta:
+
         model = Died
         fields = ['id','text', 'image']
         labels = {
             'text': '',
             'image': '',
+
+        }
+        widgets = {
+            'image': forms.ClearableFileInput(attrs={'clear-image': 'lalala'}),
         }
 
 
