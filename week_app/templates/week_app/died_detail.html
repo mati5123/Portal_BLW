@@ -1,0 +1,114 @@
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <title>Szczegóły diety</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <body class="p-3 m-0 border-0 bd-example m-0 border-0">
+        <div class="container"></div>
+
+        <div class="row">
+            <div class="col-12">
+
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div class="container-fluid"> <! płynna zmian szerkości 100%>
+
+                        <a class="navbar-brand">Szczegóły diety </a>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                             <li class="nav-item">
+                                    <a class="btn btn-secondary" href="{% url 'auth_app:home' %}">Strona Główna</a>
+                             </li>
+
+
+                         </ul>
+                        </div>
+                    </div>
+                    </nav>
+
+
+
+                    <div class="card text-center">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="true" href="#">Nazwa: {{ died.name }}</a>
+
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'week_app:died_update' died.id %}" data-toggle="tooltip" data-placement="top" title="Musisz być zalogowany" >Edytuj</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'week_app:died_comment_add' died.id %} " data-toggle="tooltip" data-placement="top" title="Musisz być zalogowany">Dodaj Komentarz</a>
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">Nazwa: {{ died.name }}</h5>
+                            <p class="card-text"><h6>Treść diety:</h6> {{ died.text | linebreaksbr }}.</p>
+
+<!--------------zdjęcie-------------------------->
+                                {% if died.image %}
+                                <img src="{{ died.image.url  }}" class="img-thumbnail" alt="Obrazek dla diety: {{ died.name }}" style="width: 400px; height: 400px;">
+                                {% endif %}
+
+                                <p><a href="{% url 'week_app:died_delete' died.week_number died.id %}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Musisz być zalogowany" >Usuń dietę</a></p>
+
+
+   <!------------------------------------Sekcja komentowania----------------->
+        <div class="card text-center">
+            <div class="card-header">
+            Zostaw swój komentarz !
+            </div>
+                <div class="card-body">
+                    <h5 class="card-title">Sekcja komentowania</h5>
+
+                        {% for comment in died.comments.all %}
+                            <p class="card-text">Komentarz:<br><h6> {{ comment.text | linebreaksbr}}</h6></p>
+                            Dodano dnia : {{ comment.create_date }}
+                            <p>Dodany przez :
+                            {{ comment.user }}
+                            </p>
+                            {% if comment %}
+
+                            <p><a href="{% url 'week_app:died_comment_delete' died.id comment.id  %}" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Musisz być zalogowany jako autor Komentarza" >Usuń komentarz</a></p> <br>
+                            {% endif %}
+                            {% empty %}
+                            <p class="card-text">Brak komentarzy.</p>
+
+
+                        {% endfor %}<br><br>
+
+
+                            <p>
+                                <div class="card-footer text-body-secondary">
+                                Data utworzenia diety: {{ died.create_date }}<br>
+                                 Data modyfikacji diety: {{ died.modify_date }}
+                             </div>
+                                </p>
+
+
+
+
+                    </div>
+                </div>
+
+                </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
+
